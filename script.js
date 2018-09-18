@@ -43,9 +43,9 @@ function addStudent() {
     var grade = $('#studentGrade').val();
     var studentObj = {
         name: studentName,
-        course: course,
+        course_name: course,
         grade: grade,
-        id: studentArray[studentArray.length - 1].id + 1
+        id: studentArray[studentArray.length - 1].id //+ 1
     };
 
     studentArray.push(studentObj);
@@ -71,7 +71,7 @@ function updateStudentList() {
 function renderStudentOnDom(studentObj) {
     var tableRow = $('<tr>')
     var studentName = $('<td>').text(studentObj.name);
-    var studentCourse = $('<td>').text(studentObj.course);
+    var studentCourse = $('<td>').text(studentObj.course_name);
     var studentGrade = $('<td>').text(studentObj.grade);
     var updateButtonTd = $('<td>');
     var deleteButtonTd = $('<td>');
@@ -94,13 +94,16 @@ function renderStudentOnDom(studentObj) {
         var closestRow = this.closest('tr');
         console.log(closestRow)
         $('.deleteText').text(`Are you sure you want to delete ${studentObj.name}?`)
+        $('.confirmDeleteButton').off();
 
-        $('.confirmDeleteButton').on('click', function () {
+        $('.confirmDeleteButton').on('click', confirmDelete);
+        
+        function confirmDelete () {
             $(closestRow).remove();
             handleDeleteButton(studentObj);
             deleteStudent(studentObj);
             $('#deleteConfirm').modal('hide')
-        })
+        }
     });
 
     updateButton.on('click', function () {
@@ -144,13 +147,15 @@ function handleDeleteButton(studentObj) {
 
 function getDataFromServer() {
     var the_data = {
-        api_key: "OH4GI7VfKh"
+        action:'readAll'
+        // api_key: "OH4GI7VfKh"
     }
     var ajaxOptions = {
         dataType: "json",
         data: the_data,
-        method: "POST",
-        url: "https://s-apis.learningfuze.com/sgt/get",
+        method: "GET",
+        url: 'data.php',
+        // url: "https://s-apis.learningfuze.com/sgt/get",
 
         success: function (response) {
             var responseArray = response.data;
@@ -169,20 +174,25 @@ function getDataFromServer() {
 
 function sendToServer(studentObj) {
     var the_data = {
-        api_key: "OH4GI7VfKh",
+        action: 'insert',
+        // api_key: "OH4GI7VfKh",
         name: studentObj.name,
-        course: studentObj.course,
+        course_name: studentObj.course_name,
         grade: studentObj.grade,
-        student_id: parseInt(studentObj.id)
+        // student_id: parseInt(studentObj.id)
     }
     var ajaxOptions = {
+        async: false,
         dataType: "json",
         data: the_data,
-        method: "POST",
-        url: "https://s-apis.learningfuze.com/sgt/create",
+        method: "GET",
+        url: 'data.php',
 
-        success: function () {
-            console.log("Success: Student Add to Serve")
+        // url: "https://s-apis.learningfuze.com/sgt/create",
+
+        success: function (response) {
+            console.log("Success: Student Add to Serve");
+            studentObj.id = response.inserID;
         },
         error: failedToRetrieve
 
@@ -192,18 +202,22 @@ function sendToServer(studentObj) {
 
 function deleteStudent(studentObj) {
     var the_data = {
-        api_key: "OH4GI7VfKh",
+        // api_key: "OH4GI7VfKh",
+        action: 'delete',
+
         student_id: parseInt(studentObj.id)
 
     }
     var ajaxOptions = {
         dataType: "json",
         data: the_data,
-        method: "POST",
-        url: "https://s-apis.learningfuze.com/sgt/delete",
+        method: "GET",
+        // url: "https://s-apis.learningfuze.com/sgt/delete",
+        url: 'data.php',
+
 
         success: function () {
-            console.log("Success: Student Add to Serve")
+            console.log("Success: Student Added to Serve")
         },
         error: failedToRetrieve
 
