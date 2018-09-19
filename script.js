@@ -134,6 +134,28 @@ function calculateGradeAverage(array) {
     return averageGrade;
 }
 
+
+
+function handleEditButton(){
+    $('#saveChanges').on('click', handleSavedUpdate);
+}
+
+function handleSavedUpdate(){
+    var editName = $('#editName').val();
+    var editCourse = $('#editCourse').val();
+    var editName = $('#editName').val();
+    var the_data = {
+        editedName,
+        editedCourse,
+        editedGrade,
+        action: 'update'
+
+    }
+
+}
+
+
+
 function handleDeleteButton(studentObj) {
     console.log('delete button clicked');
     // this.closest('tr').remove();
