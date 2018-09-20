@@ -116,42 +116,26 @@
 
     <!-- Edit Modal -->
 
-    <div class="modal fade editModal" id="updateEntry" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Student</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <!-- <span aria-hidden="true">&times;</span> -->
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group form-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-user"></span>
-                        </span>
-                        <input type="text" class="form-control" name="studentName" id="studentName" placeholder="Student Name">
-                    </div>
-                    <div class="input-group form-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                        </span>
-                        <input type="text" class="form-control" name="course" id="course" placeholder="Student Course">
-                    </div>
-                    <div class="input-group form-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-education"></span>
-                        </span>
-                        <input type="text" class="form-control" name="studentGrade" id="studentGrade" placeholder="Student Grade">
-                    </div>
-                </div>
+                    <input type="text" class="form-control" name="studentName" id="editName" placeholder="Student Name">
+                    <input type="text" class="form-control" name="course" id="editCourse" placeholder="Course">
+                    <input type="text" class="form-control" name="grade" id="editGrade" placeholder="Grade">
+                    <button id="saveChanges" class="btn btn-success">Save Changes</button>
+                    <button id="cancelChanges" class="btn btn-danger">Cancel</button>
+                    <p id="idHolder"></p>
                 <div class="modal-footer">
-                    <button type="button" class="addButton btn btn-success" data-dismiss="modal">
-                        <i class="fa fa-spinner fa-spin"></i>Save</button>
-                    <button type="button" class="closeButton btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
+            <!-- End of Modal content-->
+        </div>
+    </div>
 
 
 </body>

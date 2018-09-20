@@ -73,7 +73,7 @@ function renderStudentOnDom(studentObj) {
     var studentName = $('<td>').text(studentObj.name);
     var studentCourse = $('<td>').text(studentObj.course_name);
     var studentGrade = $('<td>').text(studentObj.grade);
-    var updateButtonTd = $('<td>');
+    var editButtonTd = $('<td>');
     var deleteButtonTd = $('<td>');
 
     var deleteButton = $('<button>', {
@@ -81,7 +81,7 @@ function renderStudentOnDom(studentObj) {
         text: 'Delete',
         id: studentObj.id
     });
-    var updateButton = $('<button>', {
+    var editButton = $('<button>', {
         class: 'btn btn-warning',
         text: 'Update',
         id: studentObj.id
@@ -106,15 +106,24 @@ function renderStudentOnDom(studentObj) {
         }
     });
 
-    updateButton.on('click', function () {
-        $('#updateEntry').modal({
+    editButton.on('click', function () {
+        $('#editModal').modal({
             show: true
         });
-
+        console.log(this);
+        var studentID = $(this).attr('id');
+        $('#idHolder').text(studentID);
+        $('#saveChanges').on('click', handleSavedUpdate);
+        $('#cancelChanges').on('click', function () {
+            $('#editModal').modal('hide');
+        });
     })
-    updateButtonTd.append(updateButton);
+    
+   
+
+    editButtonTd.append(editButton);
     deleteButtonTd.append(deleteButton);
-    tableRow.append(studentName, studentCourse, studentGrade, updateButtonTd, deleteButtonTd);
+    tableRow.append(studentName, studentCourse, studentGrade, editButtonTd, deleteButtonTd);
     $('tbody').append(tableRow);
 };
 
@@ -136,21 +145,38 @@ function calculateGradeAverage(array) {
 
 
 
-function handleEditButton(){
-    $('#saveChanges').on('click', handleSavedUpdate);
-}
-
 function handleSavedUpdate(){
-    var editName = $('#editName').val();
-    var editCourse = $('#editCourse').val();
-    var editName = $('#editName').val();
+    var editedName = $('#editName').val();
+    var editedCourse = $('#editCourse').val();
+    var editedGrade = $('#editGrade').val();
+    var buttonID = $('#idHolder').text();
     var the_data = {
         editedName,
         editedCourse,
         editedGrade,
+        buttonID,
         action: 'update'
-
     }
+    var ajaxOptions = {
+        dataType: 'json',
+        data: the_data,
+        method: 'GET',
+        url: 'data.php',
+        success: function (response) {
+            $('#editName').val('');
+            $('#editCourse').val('');
+            $('#editGrade').val('');
+            $('tbody').empty();
+            getDataFromServer();
+            updateStudentList();
+        },
+        error: function () {
+            $('#errorModal').modal('show');
+        }
+    }
+    $.ajax(ajaxOptions);
+    $('#editModal').modal('hide');
+
 
 }
 

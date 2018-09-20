@@ -29,7 +29,7 @@ switch($_GET['action']){
 		//include the php file delete.php
 		break;
 	case 'update':
-		include('dataApi/ update.php');
+		include('dataApi/update.php');
 
 		//include the update.php file
 		break;
