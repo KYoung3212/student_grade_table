@@ -15,21 +15,21 @@ $output = [
 
 switch($_GET['action']){
 	case 'readAll':
-		include('dataApi/read.php');
+		include('./read.php');
 		//include the php file 'read.php'
 		break;
 	case 'insert':
-		include('dataApi/insert.php');
+		include('./insert.php');
 
 		//include the php file insert.php
 		break;
 	case 'delete':
-		include('dataApi/delete.php');
+		include('./delete.php');
 
 		//include the php file delete.php
 		break;
 	case 'update':
-		include('dataApi/update.php');
+		include('./update.php');
 
 		//include the update.php file
 		break;
